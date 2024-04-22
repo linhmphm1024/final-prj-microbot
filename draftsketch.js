@@ -8,7 +8,9 @@ let spaceY = 10;
 let handX;
 let handY;
 
-let r,g,b;
+let handXarr = [];
+let handYarr = [];
+
 
 let diam = 10;
 
@@ -27,9 +29,12 @@ function setup() {
     // console.log(results);
     if (hands.length > 0) {
       console.log(hands);
-      handX = hands[0].landmarks[9][0];
-      handY = hands[0].landmarks[9][1];
-      // console.log(hands[0].landmarks[9]);
+      for (i in hands[0].landmarks) {
+        handXarr.push(hands[0].landmarks[i][0]);
+        handYarr.push(hands[0].landmarks[i][1]);
+      }
+
+
       // drawCircle();
     } else {
       // handX = 0;
@@ -53,10 +58,10 @@ function draw() {
   image(video, 0, 0, width, height);
   scale(1.5,1.5)
   // video.hide();
-  
+  drawCircles();
 
   //  DRAW THE MICROBOT   
-  drawCircle();
+//   drawCircle();
 
 
   
@@ -66,20 +71,22 @@ function draw() {
 
 function drawCircle() {
   background(0,0,0,20);
+  fill(255, 255, 255);
 
   for (let x = 10; x < width; x += spaceX) {
     for (let y = 10; y < height; y += spaceY) {
+      for (i in handXarr) {
+      
+      }
       let d = dist(handX, handY, x, y);
       if (d < 150) {
-        r = map(d, 0, 150, 117, 0)
-        g = map (d, 0, 150, 255, 127)
-        b = map (d, 0, 150, 255, 255)
+        
         diam = map (d, 0, 150, 50, 1);
         opac = map(d, 20, 150, 100, 30);
-        fill(r, g, b, opac);
+        fill(255, 255, 255, opac);
 
       } else {
-        fill(255, 255, 255, 50);
+        fill(0);
         diam = 5;
       };
       ellipse(x, y, diam, diam);
@@ -89,3 +96,6 @@ function drawCircle() {
 };
 
 
+function drawCircles() {
+    
+}
