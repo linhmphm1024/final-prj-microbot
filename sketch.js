@@ -12,6 +12,12 @@ let r,g,b;
 
 let diam = 10;
 
+let handXmax = 0;
+let handYmax = 0;
+
+let handXmin = 0;
+let handYmin = 0;
+
 function setup() {
   createCanvas(640*1.5, 480*1.5);
   noStroke();
@@ -26,9 +32,9 @@ function setup() {
     hands = results;
     // console.log(results);
     if (hands.length > 0) {
-      console.log(hands);
       handX = hands[0].landmarks[9][0];
       handY = hands[0].landmarks[9][1];
+      checkMinMax(handX, handY);
       // console.log(hands[0].landmarks[9]);
       // drawCircle();
     } else {
@@ -71,9 +77,9 @@ function drawCircle() {
     for (let y = 10; y < height; y += spaceY) {
       let d = dist(handX, handY, x, y);
       if (d < 150) {
-        r = map(d, 0, 150, 117, 0)
-        g = map (d, 0, 150, 255, 127)
-        b = map (d, 0, 150, 255, 255)
+        r = map(handX, 0, 150, 117, 0)
+        g = map (handX, 0, 150, 255, 127)
+        b = map (handY, 0, 150, 255, 255)
         diam = map (d, 0, 150, 50, 1);
         opac = map(d, 20, 150, 100, 30);
         fill(r, g, b, opac);
@@ -87,5 +93,31 @@ function drawCircle() {
     }
   }
 };
+
+function checkMinMax(handX, handY) {
+  
+  if (handXmin == 0) {
+    handXmin = handX;
+  }
+  if (handYmin == 0) {
+    handYmin = handY;
+  }
+
+  if (handXmin > handX) {
+    handXmin = handX;
+  }
+  if (handYmin > handY) {
+    handYmin = handY;
+  }
+
+  if (handX > handXmax) {
+    handXmax = handX;
+  }
+  if (handY > handYmax) {
+    handYmax = handY;
+  }
+  console.log(handXmin, handYmin,";", handXmax, handYmax);
+  
+}
 
 
