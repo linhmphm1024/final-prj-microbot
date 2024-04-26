@@ -2,17 +2,16 @@ let handpose;
 let video;
 let hands = [];
 
-let spaceX = 10;
-let spaceY = 10;
+let spaceX = 5;
+let spaceY = 5;
 
 let handX;
 let handY;
 
-let handXarr = [];
-let handYarr = [];
+let handArr = [];
+let subArr;
 
-
-let diam = 10;
+let diam = 5;
 
 function setup() {
   createCanvas(640*1.5, 480*1.5);
@@ -28,19 +27,21 @@ function setup() {
     hands = results;
     // console.log(results);
     if (hands.length > 0) {
-      console.log(hands);
+      handArr = []
       for (i in hands[0].landmarks) {
-        handXarr.push(hands[0].landmarks[i][0]);
-        handYarr.push(hands[0].landmarks[i][1]);
+        subArr = hands[0].landmarks[i];
+        handArr.push(subArr);
+        // console.log(subArr);
       }
-
-
+      // console.log(handArr);
       // drawCircle();
     } else {
       // handX = 0;
       // handY = 0;
       console.log("No hands detected")
     }
+
+
   });
 
   // Hide the video element, and just show the canvas
@@ -58,10 +59,9 @@ function draw() {
   image(video, 0, 0, width, height);
   scale(1.5,1.5)
   // video.hide();
-  drawCircles();
 
   //  DRAW THE MICROBOT   
-//   drawCircle();
+  drawCircle();
 
 
   
@@ -70,32 +70,49 @@ function draw() {
 
 
 function drawCircle() {
-  background(0,0,0,20);
-  fill(255, 255, 255);
+  // console.log("this func works")
+  // background(0,0,0,20);
 
   for (let x = 10; x < width; x += spaceX) {
     for (let y = 10; y < height; y += spaceY) {
-      for (i in handXarr) {
       
-      }
-      let d = dist(handX, handY, x, y);
-      if (d < 150) {
-        
-        diam = map (d, 0, 150, 50, 1);
-        opac = map(d, 20, 150, 100, 30);
-        fill(255, 255, 255, opac);
+      // // noFill();
+      // beginShape();
+      // for (i in handArr) {
+      //   vertex(handArr[i][0], handArr[i][1]);
+      //   let d = 
+      // }
+      // endShape(CLOSE);
+      // // draw the circle as simple
+      // for (i in handArr) {
+      //   if (handArr != []) {
+      //     fill(0,255,0);
+      //     ellipse(handArr[i][0], handArr[i][1], diam, diam);
+      //   }
+      // }
 
-      } else {
-        fill(0);
-        diam = 5;
+      for (i in handArr) {
+        let d = dist(handArr[i][0], handArr[i][1], x, y);
+        if (d < 70) {
+          diam = map(d, 0, 70, 20, 1);
+          opac = map(d, 0, 70, 20, 0);
+          fill(255, 0, 0, opac);
+          ellipse(x, y, diam, diam);
+
+        } else {
+          // fill(255, 255, 255, 10);
+          // diam = 5;
+          // ellipse(x, y, diam, diam);
+        }
       };
-      ellipse(x, y, diam, diam);
+      // fill (255,255, 255, 20);
+      // ellipse(x, y, diam, diam);
+
+
+      
 
     }
   }
+  
 };
 
-
-function drawCircles() {
-    
-}
